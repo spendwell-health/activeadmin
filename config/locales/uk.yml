@@ -27,12 +27,12 @@ uk:
         filter: "Фільтрувати"
         clear: "Очистити"
       predicates:
-        contains: "Містить"
-        equals: "="
-        starts_with: "Починається з"
-        ends_with: "Закінчується"
-        greater_than: "більше"
-        less_than: "меньше"
+        cont: "Містить"
+        eq: "="
+        start: "Починається з"
+        end: "Закінчується"
+        gt: "більше"
+        lt: "меньше"
     status_tag:
       "yes": "та"
       "no": "немає"

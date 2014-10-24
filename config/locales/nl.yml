@@ -27,12 +27,12 @@ nl:
         filter: "Filter"
         clear: "Maak Filters Ongedaan"
       predicates:
-        contains: "Bevat"
-        equals: "Gelijk aan"
-        starts_with: "Begint met"
-        ends_with: "Eindigt op"
-        greater_than: "Groter dan"
-        less_than: "Kleiner dan"
+        cont: "Bevat"
+        eq: "Gelijk aan"
+        start: "Begint met"
+        end: "Eindigt op"
+        gt: "Groter dan"
+        lt: "Kleiner dan"
     status_tag:
       "yes": "Ja"
       "no": "Geen"

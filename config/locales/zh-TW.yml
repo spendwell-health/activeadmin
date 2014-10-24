@@ -27,12 +27,12 @@
         filter: "篩選"
         clear: "清除篩選條件"
       predicates:
-        contains: "包含"
-        equals: "等於"
-        starts_with: "開頭為"
-        ends_with: "結尾為"
-        greater_than: "大於"
-        less_than: "小於"
+        cont: "包含"
+        eq: "等於"
+        start: "開頭為"
+        end: "結尾為"
+        gt: "大於"
+        lt: "小於"
     status_tag:
       "yes": "是的"
       "no": "無"

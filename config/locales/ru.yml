@@ -27,12 +27,12 @@ ru:
         filter: "Фильтровать"
         clear: "Очистить"
       predicates:
-        contains: "Содержит"
-        equals: "="
-        starts_with: "Начинается с"
-        ends_with: "Заканчивается"
-        greater_than: "больше"
-        less_than: "меньше"
+        cont: "Содержит"
+        eq: "="
+        start: "Начинается с"
+        end: "Заканчивается"
+        gt: "больше"
+        lt: "меньше"
     status_tag:
       "yes": "Да"
       "no": "Нет"

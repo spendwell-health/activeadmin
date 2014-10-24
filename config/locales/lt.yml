@@ -27,12 +27,12 @@ lt:
         filter: 'Filtras'
         clear: 'Išvalyti filtrus'
       predicates:
-        contains: "Sudėtyje yra"
-        equals: 'lygus'
-        starts_with: "Prasideda nuo"
-        ends_with: "Baigiasi"
-        greater_than: 'didesnis nei'
-        less_than: 'mažiau nei'
+        cont: "Sudėtyje yra"
+        eq: 'lygus'
+        start: "Prasideda nuo"
+        end: "Baigiasi"
+        gt: 'didesnis nei'
+        lt: 'mažiau nei'
     status_tag:
       "yes": "Taip"
       "no": "Nėra"

@@ -27,12 +27,12 @@ vi:
         filter: "Lọc"
         clear: "Xóa dữ liệu lọc"
       predicates:
-        contains: "Thông tin"
-        equals: "Bằng"
-        starts_with: "Bắt đầu với"
-        ends_with: "Kết thúc với việc"
-        greater_than: "Lớn hơn"
-        less_than: "Nhỏ hơn"
+        cont: "Thông tin"
+        eq: "Bằng"
+        start: "Bắt đầu với"
+        end: "Kết thúc với việc"
+        gt: "Lớn hơn"
+        lt: "Nhỏ hơn"
     status_tag:
       "yes": "Có"
       "no": "Không Có"

@@ -27,12 +27,12 @@ en:
         filter: "Filter"
         clear: "Clear Filters"
       predicates:
-        contains: "Contains"
-        equals: "Equals"
-        starts_with: "Starts with"
-        ends_with: "Ends with"
-        greater_than: "Greater than"
-        less_than: "Less than"
+        cont: "Contains"
+        eq: "Equals"
+        start: "Starts with"
+        end: "Ends with"
+        gt: "Greater than"
+        lt: "Less than"
     status_tag:
       "yes": "Yes"
       "no": "No"

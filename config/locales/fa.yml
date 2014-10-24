@@ -27,12 +27,12 @@ fa:
         filter: "فیلتر"
         clear: "پاک کردن فیلتر"
       predicates:
-        contains: "شامل"
-        equals: "برابر با"
-        starts_with: "شروع با"
-        ends_with: "پایان با"
-        greater_than: "بزرگتر از"
-        less_than: "کوچکتر از"
+        cont: "شامل"
+        eq: "برابر با"
+        start: "شروع با"
+        end: "پایان با"
+        gt: "بزرگتر از"
+        lt: "کوچکتر از"
     status_tag:
       "yes": "بله"
       "no": "بدون"

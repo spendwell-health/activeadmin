@@ -25,12 +25,12 @@
         filter: "Filter"
         clear: "Fjern filter"
       predicates:
-        contains: "Inneholder"
-        equals: "Er lik"
-        starts_with: "Starter med"
-        ends_with: "Slutter med"
-        greater_than: "Større enn"
-        less_than: "Mindre enn"
+        cont: "Inneholder"
+        eq: "Er lik"
+        start: "Starter med"
+        end: "Slutter med"
+        gt: "Større enn"
+        lt: "Mindre enn"
     status_tag:
       "yes": "Ja"
       "no": "Nei"

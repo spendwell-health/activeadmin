@@ -26,12 +26,12 @@ ca:
         filter: "Filtrar"
         clear: "Treure filtres"
       predicates:
-        contains: "Conté"
-        equals: "Igual a"
-        starts_with: "Comença amb"
-        ends_with: "Acaba amb"
-        greater_than: "Més gran que"
-        less_than: "Més petit que"
+        cont: "Conté"
+        eq: "Igual a"
+        start: "Comença amb"
+        end: "Acaba amb"
+        gt: "Més gran que"
+        lt: "Més petit que"
     status_tag:
       "yes": "Sí"
       "no": "No"

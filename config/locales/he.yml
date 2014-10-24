@@ -27,12 +27,12 @@ he:
         filter: "סינון"
         clear: "איפוס שדות"
       predicates:
-        contains: "מכיל"
-        equals: "שווה ל"
-        starts_with: "מתחיל עם"
-        ends_with: "מסתיים ב"
-        greater_than: "גדול מ"
-        less_than: "פחות מ"
+        cont: "מכיל"
+        eq: "שווה ל"
+        start: "מתחיל עם"
+        end: "מסתיים ב"
+        gt: "גדול מ"
+        lt: "פחות מ"
     status_tag:
       "yes": "כן"
       "no": "לא"

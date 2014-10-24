@@ -27,12 +27,12 @@
         filter: "Filtrar"
         clear: "Limpar Filtros"
       predicates:
-        contains: "Contém"
-        equals: "Igual A"
-        starts_with: "Começa com"
-        ends_with: "Termina com"
-        greater_than: "Maior Que"
-        less_than: "Menor Que"
+        cont: "Contém"
+        eq: "Igual A"
+        start: "Começa com"
+        end: "Termina com"
+        gt: "Maior Que"
+        lt: "Menor Que"
     status_tag:
       "yes": "Sim"
       "no": "Não"

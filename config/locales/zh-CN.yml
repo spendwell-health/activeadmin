@@ -27,12 +27,12 @@
         filter: "过滤"
         clear: "清除条件"
       predicates:
-        contains: "包含"
-        equals: "等于"
-        starts_with: "开头"
-        ends_with: "完与"
-        greater_than: "大于"
-        less_than: "小于"
+        cont: "包含"
+        eq: "等于"
+        start: "开头"
+        end: "完与"
+        gt: "大于"
+        lt: "小于"
     status_tag:
       "yes": "是的"
       "no": "无"

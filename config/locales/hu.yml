@@ -27,12 +27,12 @@ hu:
         filter: "Szűrés"
         clear: "Feltételek törlése"
       predicates:
-        contains: "Tartalmazza"
-        equals: "Pontosan"
-        starts_with: "kezdődik"
-        ends_with: "végződik"
-        greater_than: "Nagyobb, mint"
-        less_than: "Kisebb, mint"
+        cont: "Tartalmazza"
+        eq: "Pontosan"
+        start: "kezdődik"
+        end: "végződik"
+        gt: "Nagyobb, mint"
+        lt: "Kisebb, mint"
     status_tag:
       "yes": "Igen"
       "no": "Nem"
