@@ -28,7 +28,7 @@ module ActiveAdmin
     def initialize_cancan_ability
       klass = resource.namespace.cancan_ability_class
       klass = klass.constantize if klass.is_a? String
-      klass.register_ability(AbilityDecorator) if klass.respond_to(:register_ability)
+      klass.register_ability(AbilityDecorator) if klass.respond_to?(:register_ability)
       klass.new user
     end
 
