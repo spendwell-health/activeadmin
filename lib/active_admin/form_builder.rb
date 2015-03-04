@@ -13,6 +13,11 @@ end
 
 module ActiveAdmin
   class FormBuilder < ::Formtastic::FormBuilder
+    self.input_namespaces = [::Object, ::ActiveAdmin::Inputs, ::Formtastic::Inputs]
+
+    # TODO: remove both class finders after formtastic 4 (where it will be default)
+    self.input_class_finder = ::Formtastic::InputClassFinder
+    self.action_class_finder = ::Formtastic::ActionClassFinder
 
     def cancel_link(url = {action: "index"}, html_options = {}, li_attrs = {})
       li_attrs[:class] ||= "cancel"
@@ -29,13 +34,15 @@ module ActiveAdmin
 
     def has_many(assoc, options = {}, &block)
       # remove options that should not render as attributes
-      custom_settings = :new_record, :allow_destroy, :heading, :sortable
+      custom_settings = :new_record, :allow_destroy, :heading, :sortable, :sortable_start
       builder_options = {new_record: true}.merge! options.slice  *custom_settings
       options         = {for: assoc      }.merge! options.except *custom_settings
       options[:class] = [options[:class], "inputs has_many_fields"].compact.join(' ')
+      sortable_column = builder_options[:sortable]
+      sortable_start  = builder_options.fetch(:sortable_start, 0)
 
-      if (column = builder_options[:sortable])
-        options[:for] = [assoc, sorted_children(assoc, column)]
+      if sortable_column
+        options[:for] = [assoc, sorted_children(assoc, sortable_column)]
       end
 
       html = "".html_safe
@@ -64,7 +71,7 @@ module ActiveAdmin
       end
 
       tag = @already_in_an_inputs_block ? :li : :div
-      html = template.content_tag(tag, html, class: "has_many_container #{assoc}", 'data-sortable' => builder_options[:sortable])
+      html = template.content_tag(tag, html, class: "has_many_container #{assoc}", 'data-sortable' => sortable_column, 'data-sortable-start' => sortable_start)
       template.concat(html) if template.output_buffer
       html
     end
@@ -97,27 +104,6 @@ module ActiveAdmin
       object.public_send(assoc).sort_by do |o|
         attribute = o.public_send column
         [attribute.nil? ? Float::INFINITY : attribute, o.id || Float::INFINITY]
-      end
-    end
-
-    def active_admin_input_class_name(as)
-      "ActiveAdmin::Inputs::#{as.to_s.camelize}Input"
-    end
-
-    def input_class(as)
-      @input_classes_cache ||= {}
-      @input_classes_cache[as] ||= begin
-        begin
-          custom_input_class_name(as).constantize
-        rescue NameError
-          begin
-            active_admin_input_class_name(as).constantize
-          rescue NameError
-            standard_input_class_name(as).constantize
-          end
-        end
-      rescue NameError
-        raise Formtastic::UnknownInputError, "Unable to find input class for #{as}"
       end
     end
 

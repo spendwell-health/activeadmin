@@ -40,7 +40,7 @@ module ActiveAdmin
 
       # Remove a batch action
       # @param [Symbol] sym
-      # @returns [ActiveAdmin::BatchAction] the batch action, if it was present
+      # @return [ActiveAdmin::BatchAction] the batch action, if it was present
       #
       def remove_batch_action(sym)
         @batch_actions.delete(sym.to_sym)
@@ -67,7 +67,10 @@ module ActiveAdmin
         }
 
         add_batch_action :destroy, proc { I18n.t('active_admin.delete') }, destroy_options do |selected_ids|
-          active_admin_config.resource_class.find(selected_ids).each { |r| r.destroy }
+          batch_action_collection.find(selected_ids).each do |record|
+            authorize! ActiveAdmin::Auth::DESTROY, record
+            destroy_resource(record)
+          end
 
           redirect_to active_admin_config.route_collection_path(params),
                       notice: I18n.t("active_admin.batch_actions.succesfully_destroyed",
@@ -129,8 +132,7 @@ module ActiveAdmin
     end
 
     def inputs
-      HashWithIndifferentAccess.new \
-        @options[:form].is_a?(Proc) ? @options[:form].call : @options[:form]
+      @options[:form]
     end
 
     # Returns the display if block. If the block was not explicitly defined

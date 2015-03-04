@@ -19,6 +19,16 @@ module ActiveAdmin
 
       protected
 
+      COLLECTION_APPLIES = [
+        :authorization_scope,
+        :sorting,
+        :filtering,
+        :scoping,
+        :includes,
+        :pagination,
+        :collection_decorator
+      ].freeze
+
       # Retrieve, memoize and authorize the current collection from the db. This
       # method delegates the finding of the collection to #find_collection.
       #
@@ -26,7 +36,7 @@ module ActiveAdmin
       # either the @collection instance variable or an instance variable named
       # after the resource that the collection is for. eg: Post => @post.
       #
-      # @returns [ActiveRecord::Relation] The collection for the index
+      # @return [ActiveRecord::Relation] The collection for the index
       def collection
         get_collection_ivar || begin
           collection = find_collection
@@ -41,21 +51,12 @@ module ActiveAdmin
       # some additional db # work before your controller returns and
       # authorizes the collection.
       #
-      # @returns [ActiveRecord::Relation] The collectin for the index
-      def find_collection
+      # @return [ActiveRecord::Relation] The collection for the index
+      def find_collection(options = {})
         collection = scoped_collection
-
-        collection = apply_authorization_scope(collection)
-        collection = apply_sorting(collection)
-        collection = apply_filtering(collection)
-        collection = apply_scoping(collection)
-
-        unless request.format == 'text/csv'
-          collection = apply_pagination(collection)
+        collection_applies(options).each do |applyer|
+          collection = send("apply_#{applyer}", collection)
         end
-
-        collection = apply_collection_decorator(collection)
-
         collection
       end
 
@@ -83,7 +84,7 @@ module ActiveAdmin
       #   * update
       #   * destroy
       #
-      # @returns [ActiveRecord::Base] An active record object
+      # @return [ActiveRecord::Base] An active record object
       def resource
         get_resource_ivar || begin
           resource = find_resource
@@ -101,7 +102,7 @@ module ActiveAdmin
       # ActiveRecord::Associations::CollectionProxy (belongs_to associations)
       # mysteriously returns an Enumerator object.
       #
-      # @returns [ActiveRecord::Base] An active record object.
+      # @return [ActiveRecord::Base] An active record object.
       def find_resource
         scoped_collection.send method_for_find, params[:id]
       end
@@ -114,7 +115,7 @@ module ActiveAdmin
       # This method is used to instantiate and authorize new resources in the
       # new and create controller actions.
       #
-      # @returns [ActiveRecord::Base] An un-saved active record base object
+      # @return [ActiveRecord::Base] An un-saved active record base object
       def build_resource
         get_resource_ivar || begin
           resource = build_new_resource
@@ -132,7 +133,7 @@ module ActiveAdmin
       # Note that public_send can't be used here w/ Rails 3.2 & a belongs_to
       # config, or you'll get undefined method `build' for []:Array.
       #
-      # @returns [ActiveRecord::Base] An un-saved active record base object
+      # @return [ActiveRecord::Base] An un-saved active record base object
       def build_new_resource
         scoped_collection.send method_for_build, *resource_params
       end
@@ -141,7 +142,7 @@ module ActiveAdmin
       #
       # @param [ActiveRecord::Base] object The new resource to create
       #
-      # @returns [void]
+      # @return [void]
       def create_resource(object)
         run_create_callbacks object do
           save_resource(object)
@@ -152,7 +153,7 @@ module ActiveAdmin
       #
       # @param [ActiveRecord::Base] object The new resource to save
       #
-      # @returns [void]
+      # @return [void]
       def save_resource(object)
         run_save_callbacks object do
           object.save
@@ -168,7 +169,7 @@ module ActiveAdmin
       #                           and the Active Record "role" in the second. The role
       #                           may be set to nil.
       #
-      # @returns [void]
+      # @return [void]
       def update_resource(object, attributes)
         if object.respond_to?(:assign_attributes)
           object.assign_attributes(*attributes)
@@ -183,7 +184,7 @@ module ActiveAdmin
 
       # Destroys an object from the database and calls appropriate callbacks.
       #
-      # @returns [void]
+      # @return [void]
       def destroy_resource(object)
         run_destroy_callbacks object do
           object.destroy
@@ -203,7 +204,7 @@ module ActiveAdmin
       #
       # @param [ActiveRecord::Relation] collection The collection to scope
       #
-      # @retruns [ActiveRecord::Relation] a scoped collection of query
+      # @return [ActiveRecord::Relation] a scoped collection of query
       def apply_authorization_scope(collection)
         action_name = action_to_permission(params[:action])
         active_admin_authorization.scope_collection(collection, action_name)
@@ -246,6 +247,14 @@ module ActiveAdmin
         end
       end
 
+      def apply_includes(chain)
+        if active_admin_config.includes.any?
+          chain.includes *active_admin_config.includes
+        else
+          chain
+        end
+      end
+
       def collection_before_scope
         @collection_before_scope
       end
@@ -265,11 +274,29 @@ module ActiveAdmin
         chain.public_send(page_method_name, page).per(per_page)
       end
 
+      def collection_applies(options = {})
+        only = Array(options.fetch(:only, COLLECTION_APPLIES))
+        except = Array(options.fetch(:except, []))
+        COLLECTION_APPLIES && only - except
+      end
+
       def per_page
         if active_admin_config.paginate
-          @per_page || active_admin_config.per_page
+          dynamic_per_page || configured_per_page
         else
           max_per_page
+        end
+      end
+
+      def dynamic_per_page
+        params[:per_page] || @per_page
+      end
+
+      def configured_per_page
+        if active_admin_config.per_page.is_a?(Array)
+          active_admin_config.per_page[0]
+        else
+          active_admin_config.per_page
         end
       end
 
