@@ -1,5 +1,5 @@
 #= require jquery
-#= require jquery.ui.all
+#= require jquery-ui
 #
 #= require_self
 #= require_tree ./lib
